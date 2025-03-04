@@ -64,10 +64,10 @@ Linux系统初始化宝箱 (All in One)。快速系统设置和软件安装或�
 mkdir -p Linux-System-Init-Box && cd Linux-System-Init-Box
 
 # 2. 下载 核心工具 (utils和Linux_System_Init_Box)
-curl -fsSL https://raw.githubusercontent.com/MeowLove/Linux-System-Init-Box/main/utils.sh -o utils.sh
+curl -fsSL https://raw.githubusercontent.com/MeowLove/Linux-System-Init-Box/main/cxt-utils.sh -o cxt-utils.sh
 curl -fsSL https://raw.githubusercontent.com/MeowLove/Linux-System-Init-Box/main/Linux_System_Init_Box.sh -o Linux_System_Init_Box.sh
 
-# 3. 赋予 main.sh 执行权限
+# 3. 赋予 Linux_System_Init_Box 权限，并运行
 chmod a+x ./Linux_System_Init_Box.sh && bash ./Linux_System_Init_Box.sh
 
 ```
