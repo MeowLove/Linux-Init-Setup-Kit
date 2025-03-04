@@ -6,13 +6,13 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 # --- 导入工具函数 ---
-source "$(dirname "$(readlink -f "$0")")/utils.sh"
+source "$(dirname "$(readlink -f "$0")")/cxt-utils.sh"
 
 # --- 全局变量 ---
 detect_os       # 检测操作系统
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # LOG_FILE="$SCRIPT_DIR/init.log"  # 可选
-SCRIPT_VERSION="1.0"  # 设置版本号
+SCRIPT_VERSION="1.0.5"  # 设置版本号
 
 # --- 立即创建所有必需的目录 ---
 mkdir -pv "$SCRIPT_DIR/scripts/"{docker,iscsi,net_tools,network,packages,security,system}
