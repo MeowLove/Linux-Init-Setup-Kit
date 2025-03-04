@@ -60,7 +60,16 @@ Linux系统初始化宝箱 (All in One)。快速系统设置和软件安装或�
 **方法一：**
 
 ```bash
-下载完整库，运行 Linux_System_Init_Box_All_in_One.sh 启动
+# 1. 创建 Linux-System-Init-Box 目录，并进入
+mkdir -p Linux-System-Init-Box && cd Linux-System-Init-Box
+
+# 2. 下载 核心工具 (utils和Linux_System_Init_Box)
+curl -fsSL https://raw.githubusercontent.com/MeowLove/Linux-System-Init-Box/main/utils.sh -o utils.sh
+curl -fsSL https://raw.githubusercontent.com/MeowLove/Linux-System-Init-Box/main/Linux_System_Init_Box.sh -o Linux_System_Init_Box.sh
+
+# 3. 赋予 main.sh 执行权限
+chmod a+x ./Linux_System_Init_Box.sh && bash ./Linux_System_Init_Box.sh
+
 ```
 
 ## 注意事项
