@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# --- 获取 utils.sh 所在的目录 ---
+UTILS_DIR="$(dirname "$(readlink -f "$0")")"
+
 # --- ANSI 颜色定义 (可选) ---
 # 取消注释以启用彩色输出
 readonly COLOR_RED='\033[1;31m'     # 红色加粗
@@ -23,7 +26,7 @@ warning() {
   echo -e "${COLOR_YELLOW}$1${COLOR_RESET}"
 }
 
-# --- 函数：检查命令是否存在 ---
+# --- 函数：检查命令是否可用 ---
 # 参数：
 #   $1: 要检查的命令名
 # 返回值：

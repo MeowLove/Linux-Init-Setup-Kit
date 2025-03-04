@@ -4,7 +4,7 @@
 # 警告：修改 Docker 数据目录可能会导致现有容器和镜像无法访问！
 
 # --- 导入工具函数 ---
-source "$(dirname "$(readlink -f "$0")")/../utils.sh"
+source "$UTILS_DIR/cxt-utils.sh"
 
 # --- 确保以 root 权限运行 ---
 if [[ "$EUID" -ne 0 ]]; then

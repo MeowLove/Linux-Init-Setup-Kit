@@ -4,7 +4,7 @@
 # 注意：此脚本仅适用于 Alpine Linux，并且需要先安装 Docker。
 
 # --- 导入工具函数 ---
-source "$(dirname "$(readlink -f "$0")")/../utils.sh"
+source "$UTILS_DIR/cxt-utils.sh"
 
 # --- 确保以 root 权限运行 ---
 if [[ "$EUID" -ne 0 ]]; then

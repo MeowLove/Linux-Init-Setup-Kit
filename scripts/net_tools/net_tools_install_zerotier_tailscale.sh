@@ -3,7 +3,7 @@
 # --- 脚本说明：安装 ZeroTier 和 Tailscale (非 Alpine Linux) ---
 
 # --- 导入工具函数 ---
-source "$(dirname "$(readlink -f "$0")")/../utils.sh"
+source "$UTILS_DIR/cxt-utils.sh"
 
 # --- 确保以 root 权限运行 ---
 if [[ "$EUID" -ne 0 ]]; then
