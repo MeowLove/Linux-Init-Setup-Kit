@@ -3,7 +3,7 @@
 # --- 脚本说明：配置网络优先级 (IPv4/IPv6 优先) ---
 
 # --- 导入工具函数 ---
-source "$UTILS_DIR/cxt-utils.sh"
+source "$(dirname "$(readlink -f "$0")")/../../cxt-utils.sh" # 已修改
 
 # --- 确保以 root 权限运行 ---
 if [[ "$EUID" -ne 0 ]]; then

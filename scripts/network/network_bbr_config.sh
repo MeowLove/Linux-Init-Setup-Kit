@@ -3,7 +3,7 @@
 # --- 脚本说明：配置 BBR (Bottleneck Bandwidth and Round-trip propagation time) 拥塞控制算法 ---
 
 # --- 导入工具函数 ---
-source "$UTILS_DIR/cxt-utils.sh"
+source "$(dirname "$(readlink -f "$0")")/../../cxt-utils.sh" # 已修改
 
 # --- 确保以 root 权限运行 ---
 if [[ "$EUID" -ne 0 ]]; then

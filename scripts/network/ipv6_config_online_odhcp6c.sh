@@ -3,7 +3,7 @@
 # --- 脚本说明：为使用 odhcp6c 获取 IPv6 地址的服务器 (如 Scaleway、Online.net) 配置 IPv6 ---
 
 # --- 导入工具函数 ---
-source "$UTILS_DIR/cxt-utils.sh"
+source "$(dirname "$(readlink -f "$0")")/../../cxt-utils.sh" # 已修改
 
 # --- 确保以 root 权限运行 ---
 if [[ "$EUID" -ne 0 ]]; then
