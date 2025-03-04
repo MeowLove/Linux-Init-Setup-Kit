@@ -13,7 +13,7 @@ source "$(dirname "$(readlink -f "$0")")/utils.sh"
 detect_os       # 检测操作系统
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # LOG_FILE="$SCRIPT_DIR/init.log"  # 可选
-SCRIPT_VERSION="1.0.2"  # 设置版本号
+SCRIPT_VERSION="1.0"  # 设置版本号
 
 # --- 检查并安装必要的工具 ---
 # 检查并安装 dialog
