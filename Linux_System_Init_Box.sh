@@ -2,8 +2,7 @@
 
 # --- 确保以 root 权限运行 ---
 if [[ "$EUID" -ne 0 ]]; then
-   echo "此脚本必须以 root 权限运行。" >&2
-   exit 1
+   error_exit "此脚本必须以 root 权限运行。"
 fi
 
 # --- 导入工具函数 ---
@@ -14,6 +13,9 @@ detect_os       # 检测操作系统
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # LOG_FILE="$SCRIPT_DIR/init.log"  # 可选
 SCRIPT_VERSION="1.0"  # 设置版本号
+
+# --- 立即创建所有必需的目录 ---
+mkdir -pv "$SCRIPT_DIR/scripts/"{docker,iscsi,net_tools,network,packages,security,system}
 
 # --- 检查并安装必要的工具 ---
 # 检查并安装 dialog
@@ -82,29 +84,23 @@ detect_cn_mirrors
 
 # --- 函数：下载脚本文件 ---
 download_script() {
-  local script_name="$1"
-  local script_path="$SCRIPT_DIR/scripts/$script_name"
+  local script_path="$SCRIPT_DIR/scripts/$1"
 
-  # 检查脚本文件是否已存在
-  if [[ -f "$script_path" ]]; then
-    return 0  # 文件已存在，直接返回
-  fi
-
-  info "下载脚本文件：$script_name"
+  info "下载脚本文件：$1"
 
   # 根据 USE_CN_MIRRORS 选择下载源
   local download_url
   if [[ "$USE_CN_MIRRORS" == "true" ]]; then
     # 使用国内镜像 (您的博客)
-    download_url="https://www.cxthhhhh.com/Linux-System-Init-Box/scripts/$script_name"
+    download_url="https://www.cxthhhhh.com/Linux-System-Init-Box/scripts/$1"
   else
     # 使用 GitHub
-    download_url="https://raw.githubusercontent.com/MeowLove/Linux-System-Init-Box/main/scripts/$script_name"
+    download_url="https://raw.githubusercontent.com/MeowLove/Linux-System-Init-Box/main/scripts/$1"
   fi
 
   # 下载脚本文件
   if ! curl -fsSL "$download_url" -o "$script_path"; then
-    error_exit "下载脚本文件 '$script_name' 失败。请检查网络连接或手动下载脚本。"
+    error_exit "下载脚本文件 '$1' 失败。请检查网络连接或手动下载脚本。"
   fi
 
   # 设置脚本文件的执行权限
@@ -135,6 +131,7 @@ menu_items=(
 )
 
 # --- 创建菜单项编号与脚本文件名的映射 ---
+# 注意：这里直接存储了完整的脚本路径
 declare -A script_map
 script_map=(
   ["1"]="system/hostname_set.sh"
@@ -186,7 +183,7 @@ while true; do
   # --- 根据选择执行操作 ---
   if [[ -n "$choice" ]]; then
     script_to_run="${script_map[$choice]}"
-    if [[ "$script_to_run" != "" ]] && [[ -f "$SCRIPT_DIR/scripts/$script_to_run" ]]; then
+    if [[ "$script_to_run" != "" ]]; then
       # 先删除本地脚本文件 (如果存在)
       rm -f "$SCRIPT_DIR/scripts/$script_to_run"
 
