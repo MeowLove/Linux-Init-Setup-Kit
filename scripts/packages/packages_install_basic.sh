@@ -3,7 +3,7 @@
 # --- 脚本说明：安装常用的基础软件包 ---
 
 # --- 导入工具函数 ---
-source "$(dirname "$(dirname "$(readlink -f "$0")")")/utils.sh"
+source "$(dirname "$(readlink -f "$0")")/../utils.sh"
 
 # --- 确保以 root 权限运行 ---
 if [[ "$EUID" -ne 0 ]]; then
