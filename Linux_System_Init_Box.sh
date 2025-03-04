@@ -87,11 +87,6 @@ download_script() {
   local script_name="$1"
   local script_path="$SCRIPT_DIR/scripts/$script_name"
 
-  # 检查脚本文件是否已存在
-  if [[ -f "$script_path" ]]; then
-    return 0  # 文件已存在，直接返回
-  fi
-
   info "下载脚本文件：$script_name"
 
   # 根据 USE_CN_MIRRORS 选择下载源
@@ -171,7 +166,7 @@ while true; do
   done
 
   # 获取镜像源信息
-  #local mirror_info # 注释掉这行
+  local mirror_info
   if [[ "$USE_CN_MIRRORS" == "true" ]]; then
     mirror_info="使用国内镜像源"
   else
@@ -188,7 +183,7 @@ while true; do
   # --- 根据选择执行操作 ---
   if [[ -n "$choice" ]]; then
     script_to_run="${script_map[$choice]}"
-    if [[ "$script_to_run" != "" ]] && [[ -f "$SCRIPT_DIR/scripts/$script_to_run" ]]; then
+    if [[ "$script_to_run" != "" ]] ; then   #&& [[ -f "$SCRIPT_DIR/scripts/$script_to_run" ]]  删除
       # 先删除本地脚本文件 (如果存在)
       rm -f "$SCRIPT_DIR/scripts/$script_to_run"
 
