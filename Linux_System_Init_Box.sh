@@ -20,65 +20,16 @@ mkdir -pv "$SCRIPT_DIR/scripts/"{docker,iscsi,net_tools,network,packages,securit
 # --- 检查并安装必要的工具 ---
 # 检查并安装 dialog
 if ! command -v dialog &> /dev/null; then
-  echo "安装 dialog..."
-  case "$OS_ID" in
-    centos|rhel|rocky|almalinux|oraclelinux|fedora)
-      dnf install -y dialog
-      ;;
-    debian|ubuntu)
-      apt update && apt install -y dialog
-      ;;
-    opensuse-leap|opensuse-tumbleweed|sles)
-      zypper install -y dialog
-      ;;
-    alpine)
-      apk add dialog
-      ;;
-    arch)
-      pacman -S --noconfirm dialog
-      ;;
-    *)
-      echo "错误：不支持的发行版 '$OS_ID'，无法安装 dialog。" >&2
-      exit 1
-      ;;
-  esac
+  info "安装 dialog..."
+  install_packages dialog
 fi
- case "$OS_ID" in
-    centos|rhel|rocky|almalinux|oraclelinux)
-      # RHEL 系列 (CentOS 8 及以上, RHEL 8 及以上)
-      command -v dnf &> /dev/null || (echo "错误: 没有可用包管理器,将退出" && exit 1)
-      dnf install -y curl grep
-      ;;
-    fedora)
-      # Fedora
-      command -v dnf &> /dev/null || (echo "错误: 没有可用包管理器,将退出" && exit 1)
-      dnf install -y curl grep
-      ;;
-    debian|ubuntu)
-      # Debian 系列
-      command -v apt &> /dev/null || (echo "错误: 没有可用包管理器,将退出" && exit 1)
-      apt update -y && apt install -y curl grep
-      ;;
-    opensuse-leap|opensuse-tumbleweed|sles)
-      # openSUSE/SLES
-      command -v zypper &> /dev/null || (echo "错误: 没有可用包管理器,将退出" && exit 1)
-      zypper refresh -y && zypper install -y curl grep
-      ;;
-    alpine)
-      # Alpine Linux
-      command -v apk &> /dev/null || (echo "错误: 没有可用包管理器,将退出" && exit 1)
-      apk update && apk add curl grep
-      ;;
-    arch)
-      # Arch Linux
-      command -v pacman &> /dev/null || (echo "错误: 没有可用包管理器,将退出" && exit 1)
-      pacman -Syu --noconfirm curl grep
-      ;;
-    *)
-      echo "错误：不支持的发行版 '$OS_ID'。" >&2
-      exit 1
-      ;;
-  esac
+
+# 检查并安装 curl 和 grep
+if ! command -v curl &> /dev/null || ! command -v grep &> /dev/null; then
+  info "安装 curl 和 grep..."
+  install_packages curl grep
+fi
+
 # --- 检测是否使用国内镜像 ---
 detect_cn_mirrors
 
@@ -183,7 +134,7 @@ while true; do
   # --- 根据选择执行操作 ---
   if [[ -n "$choice" ]]; then
     script_to_run="${script_map[$choice]}"
-    if [[ "$script_to_run" != "" ]] ; then   #&& [[ -f "$SCRIPT_DIR/scripts/$script_to_run" ]]  删除
+    if [[ "$script_to_run" != "" ]] && [[ -f "$SCRIPT_DIR/scripts/$script_to_run" ]]; then
       # 先删除本地脚本文件 (如果存在)
       rm -f "$SCRIPT_DIR/scripts/$script_to_run"
 
