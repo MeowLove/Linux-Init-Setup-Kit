@@ -6,8 +6,8 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 # --- 导入工具函数 ---
-
 source "$(dirname "$(readlink -f "$0")")/cxt-utils.sh"
+
 # --- 全局变量 ---
 detect_os       # 检测操作系统
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -171,7 +171,7 @@ while true; do
   done
 
   # 获取镜像源信息
-  local mirror_info
+  #local mirror_info # 注释掉这行
   if [[ "$USE_CN_MIRRORS" == "true" ]]; then
     mirror_info="使用国内镜像源"
   else
