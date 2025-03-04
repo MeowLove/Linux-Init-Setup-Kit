@@ -96,59 +96,7 @@ detect_cn_mirrors() {
     USE_CN_MIRRORS=false
   fi
 }
-# --- 函数：安装软件包 ---
-# 参数：
-#   $@: 要安装的软件包列表
-install_packages() {
-  local packages=("$@")  # 获取所有参数 (软件包列表)
-  case "$OS_ID" in
-    centos|rhel|rocky|almalinux|oraclelinux|fedora)
-      # RHEL 系列 (CentOS 8 及以上, RHEL 8 及以上)
-      check_command dnf
-      dnf install -y "${packages[@]}"
-      ;;
-    debian|ubuntu)
-      # Debian 系列
-      check_command apt
-      apt update -y && apt install -y "${packages[@]}"
-      ;;
-    opensuse-leap|opensuse-tumbleweed|sles)
-      # openSUSE/SLES
-      check_command zypper
-      zypper refresh -y && zypper install -y "${packages[@]}"
-      ;;
-    alpine)
-      # Alpine Linux
-      check_command apk
-      apk update && apk add "${packages[@]}"
-      ;;
-    arch)
-      # Arch Linux
-      check_command pacman
-      pacman -Syu --noconfirm "${packages[@]}"
-      ;;
-    *)
-      error_exit "不支持的发行版 '$OS_ID'。"
-      ;;
-  esac
-}
 
-# --- 函数：下载文件 ---
-# 参数：
-#   $1: 要下载的文件的 URL
-#   $2: 要保存到的本地路径
-# 返回值：
-#   如果下载成功，则返回 0；否则返回非零值。
-download_file() {
-  local url="$1"
-  local dest_path="$2"
-
-  info "下载文件：$url"
-
-  if ! curl -fsSL "$url" -o "$dest_path"; then
-    error_exit "下载文件 '$url' 失败。请检查网络连接或手动下载文件。"
-  fi
-}
 # 日志记录函数 (可选，暂不实现)
 # log() {
 #   :
